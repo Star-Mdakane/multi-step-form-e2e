@@ -19,7 +19,11 @@ export default function RootLayout({ children }) {
       lang="en"
       className={ubuntu.className}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="w-screen min-h-screen bg-[#EFF5FF] relative">
+        <div
+          className={`h-[25vh] bg-[url("../public/images/bg-sidebar-mobile.svg")] bg-no-repeat bg-cover bg-center md:hidden`}
+        ></div>
+        {children}</body>
     </html>
   );
 }

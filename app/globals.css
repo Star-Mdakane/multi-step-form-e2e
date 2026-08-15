@@ -1,2 +1,7 @@
 @import "tailwindcss";
 
+@theme {
+    --color-pri: rgb(2, 41, 89);
+    --color-pri-hover: rgb(22, 74, 138);
+    --color-text-pri: rgb(150, 153, 170);
+}

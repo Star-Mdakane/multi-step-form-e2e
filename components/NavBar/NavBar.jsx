@@ -1,6 +1,10 @@
 const NavBar = () => {
     return (
-        <div>NavBar</div>
+        <div
+            className="flex md:flex-col"
+        >
+            NavBar
+        </div>
     )
 }
 

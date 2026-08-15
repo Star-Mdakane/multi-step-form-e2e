@@ -1,8 +1,11 @@
 'use client'
 
 import AddOns from "@/components/AddOns/AddOns";
+import ButtonContainer from "@/components/ButtonContainer/ButtonContainer";
+import NavBar from "@/components/NavBar/NavBar";
 import PersonalInfo from "@/components/PersonalInfo/PersonalInfo";
 import SelectPlan from "@/components/SelectPlan/SelectPlan";
+import StepContainer from "@/components/StepContainer/StepContainer";
 import Summary from "@/components/Summary/Summary";
 import { useEffect, useState } from "react";
 
@@ -57,13 +60,18 @@ export default function Home() {
   ]
 
   return (
-    <main id="main card" className="absolute bg-transparent left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[15px] md:w-172 lg:w-235 md:h-150 md:bg-white md:shadow-[0px_25px_40px_-20px_rgb(0,0,0_10)]">
+    <main id="main card" className="absolute bg-transparent left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[15px] w-93.75 h-full md:w-172 lg:w-235 md:h-150 md:bg-white md:shadow-[0px_25px_40px_-20px_rgb(0,0,0_10)] flex flex-col">
       <nav id="nav">
-
+        <NavBar />
       </nav>
       <section id="step-container">
-
+        <StepContainer step={step} steps={steps} setStep={setStep} />
       </section>
+      <footer
+        className="absolute w-93.75 bottom-0 left-0 flex md:hidden"
+      >
+        <ButtonContainer step={step} setStep={setStep} />
+      </footer>
     </main>
   );
 }

@@ -1,6 +1,13 @@
-const StepContainer = () => {
+const StepContainer = ({ step, steps, setStep }) => {
+
+    const page = steps[step]?.component;
+
     return (
-        <div>StepContainer</div>
+        <div
+            className=""
+        >
+            {page}
+        </div>
     )
 }
 

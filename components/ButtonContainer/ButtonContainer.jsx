@@ -1,8 +1,31 @@
-import React from 'react'
+const ButtonContainer = ({ step, setStep }) => {
 
-const ButtonContainer = () => {
+    const nextStep = () => {
+        setStep(prev => Math.min(prev + 1, 3))
+    }
+
+    const prevStep = () => {
+        setStep(prev => Math.max(prev - 1, 0))
+    }
+
     return (
-        <div>ButtonContainer</div>
+        <div
+            className="w-full flex justify-between text-[14px] md:text-[16px] leading-[150%] md:leading-[120%] tracking-normal font-medium p-4 md:p-0 bg-white"
+        >
+            <button type="button"
+                onClick={prevStep}
+                className={`w-24 md:w-31 h-10 md:h-12 cursor-pointer text-text-pri hover:text-pri rounded-sm md:rounded-lg`}
+            >
+                {step === 0 ? '' : 'Go Back'}
+
+            </button>
+            <button type="button"
+                onClick={nextStep}
+                className="w-24 md:w-31 h-10 md:h-12 cursor-pointer text-[14px] md:text-[16px] leading-[150%] md:leading-[120%] tracking-normal font-medium bg-pri hover:bg-pri-hover text-white rounded-sm md:rounded-lg"
+            >
+                {step === 3 ? 'Confirm' : 'Next Step'}
+            </button>
+        </div>
     )
 }
 

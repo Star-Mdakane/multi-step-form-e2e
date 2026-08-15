@@ -15,7 +15,7 @@ const ButtonContainer = ({ step, setStep }) => {
             <button type="button"
                 aria-label="previous page"
                 onClick={prevStep}
-                className={`w-24 md:w-31 h-10 md:h-12 cursor-pointer text-text-pri hover:text-pri rounded-sm md:rounded-lg`}
+                className={`w-24 md:w-31 h-10 md:h-12 cursor-pointer text-text-pri hover:text-pri rounded-sm md:rounded-lg transition-colors duration-300`}
             >
                 {step === 0 ? '' : 'Go Back'}
 
@@ -23,7 +23,7 @@ const ButtonContainer = ({ step, setStep }) => {
             <button type="button"
                 aria-label="next page"
                 onClick={nextStep}
-                className="w-24 md:w-31 h-10 md:h-12 cursor-pointer text-[14px] md:text-[16px] leading-[150%] md:leading-[120%] tracking-normal font-medium bg-pri hover:bg-pri-hover text-white rounded-sm md:rounded-lg"
+                className="w-24 md:w-31 h-10 md:h-12 cursor-pointer text-[14px] md:text-[16px] leading-[150%] md:leading-[120%] tracking-normal font-medium bg-pri hover:bg-pri-hover text-white rounded-sm md:rounded-lg transition-colors duration-300"
             >
                 {step === 3 ? 'Confirm' : 'Next Step'}
             </button>

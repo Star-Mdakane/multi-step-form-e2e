@@ -60,14 +60,14 @@ export default function Home() {
   ]
 
   return (
-    <main id="main card" className="min-w-93.75 absolute pt-8 md:pt-0 bg-transparent left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[15px] w-93.75 h-full md:w-172 lg:w-235 md:h-150 md:bg-white md:shadow-[0px_25px_40px_-20px_rgb(0,0,0_10)] flex flex-col space-y-8 md:space-y-0 md:flex-row">
+    <main id="main card" className="min-w-93.75 absolute pt-8 md:pt-0 bg-transparent left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[15px] w-93.75 h-full md:w-172 lg:w-235 md:h-150 md:bg-white md:shadow-main flex flex-col space-y-8 md:space-y-0 md:flex-row">
       <nav id="nav"
         className="w-45 md:w-59.5 lg:w-76.5 mx-auto md:p-4"
       >
-        <NavBar />
+        <NavBar step={step} setStep={setStep} />
       </nav>
       <section id="step-container"
-        className="w-86 md:w-md lg:w-158.5 mx-auto bg-white shadow-[0px_25px_40px_-20px_rgb(0,0,0_10)] md:shadow-none rounded-[10px] px-6 py-8 md:p-0 flex justify-center items-center">
+        className="w-86 md:w-md lg:w-158.5 mx-auto bg-white shadow-main md:shadow-none rounded-[10px] px-6 py-8 md:p-0 flex justify-center items-center">
         <StepContainer step={step} steps={steps} setStep={setStep} />
       </section>
       <footer

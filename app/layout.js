@@ -19,9 +19,9 @@ export default function RootLayout({ children }) {
       lang="en"
       className={ubuntu.className}
     >
-      <body className="w-screen min-h-screen bg-[#EFF5FF] relative">
+      <body className="min-w-93.75 w-screen min-h-screen bg-[#EFF5FF] relative">
         <div
-          className={`h-[25vh] bg-[url("../public/images/bg-sidebar-mobile.svg")] bg-no-repeat bg-cover bg-center md:hidden`}
+          className={`mx-auto h-[25vh] bg-[url("../public/images/bg-sidebar-mobile.svg")] bg-no-repeat bg-cover bg-center md:hidden`}
         ></div>
         {children}</body>
     </html>

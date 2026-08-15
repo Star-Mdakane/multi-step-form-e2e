@@ -13,6 +13,7 @@ const ButtonContainer = ({ step, setStep }) => {
             className="w-full flex justify-between text-[14px] md:text-[16px] leading-[150%] md:leading-[120%] tracking-normal font-medium p-4 md:p-0 bg-white"
         >
             <button type="button"
+                aria-label="previous page"
                 onClick={prevStep}
                 className={`w-24 md:w-31 h-10 md:h-12 cursor-pointer text-text-pri hover:text-pri rounded-sm md:rounded-lg`}
             >
@@ -20,6 +21,7 @@ const ButtonContainer = ({ step, setStep }) => {
 
             </button>
             <button type="button"
+                aria-label="next page"
                 onClick={nextStep}
                 className="w-24 md:w-31 h-10 md:h-12 cursor-pointer text-[14px] md:text-[16px] leading-[150%] md:leading-[120%] tracking-normal font-medium bg-pri hover:bg-pri-hover text-white rounded-sm md:rounded-lg"
             >

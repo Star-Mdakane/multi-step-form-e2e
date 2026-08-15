@@ -4,7 +4,7 @@ const StepContainer = ({ step, steps, setStep }) => {
 
     return (
         <div
-            className=""
+            className="md:w-87 lg:w-112.5"
         >
             {page}
         </div>

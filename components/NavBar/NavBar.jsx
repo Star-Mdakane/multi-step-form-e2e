@@ -26,7 +26,7 @@ const NavBar = ({ step, setStep }) => {
 
     return (
         <ul
-            className="flex md:flex-col md:h-full rounded-[15px] md:bg-[url('../public/images/bg-sidebar-desktop.svg')] bg-no-repeat bg-cover bg-center px-6 py-10 md:space-y-8 gap-x-4 md:gap-x-0"
+            className="flex md:flex-col md:h-full rounded-[15px] md:bg-[url('../public/images/bg-sidebar-desktop.svg')] bg-no-repeat bg-cover bg-center md:px-6 py-10 md:space-y-8 gap-x-4 md:gap-x-0"
         >
             {navSteps.map((s, idx) => (
                 <button
@@ -34,6 +34,7 @@ const NavBar = ({ step, setStep }) => {
                     key={idx}
                     className="flex gap-4 cursor-pointer"
                     type="button"
+                    aria-label={`go to ${s.navTitle} page`}
                 >
                     <div className={`w-8 h-8 text-[14px] font-bold leading-[120%] tracking-[1px] grid place-content-center border border-white rounded-full ${step === idx ? 'bg-nav-bg' : ''} ${step === idx ? 'text-pri' : 'text-white'} transition-colors duration-300`}>
                         {s.id}

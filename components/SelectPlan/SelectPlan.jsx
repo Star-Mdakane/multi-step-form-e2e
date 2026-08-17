@@ -1,6 +1,23 @@
 const SelectPlan = () => {
     return (
-        <div>SelectPlan</div>
+        <div
+            className="flex flex-col gap-6"
+        >
+            <div>
+                <div>
+
+                </div>
+                <div>
+
+                </div>
+                <div>
+
+                </div>
+            </div>
+            <div>
+
+            </div>
+        </div>
     )
 }
 

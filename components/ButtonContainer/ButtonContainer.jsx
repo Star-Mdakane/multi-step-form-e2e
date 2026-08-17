@@ -1,7 +1,26 @@
+'use client'
+
+import { useFormContext } from "react-hook-form";
+
 const ButtonContainer = ({ step, setStep }) => {
 
-    const nextStep = () => {
-        setStep(prev => Math.min(prev + 1, 3))
+    const { trigger, handleSubmit } = useFormContext();
+
+    const onSubmit = (data) => {
+        console.log(data);
+    };
+
+    const nextStep = async () => {
+        if (step === 3) {
+            handleSubmit(onSubmit)();
+            return;
+        }
+
+        const valid = await trigger()
+
+        if (valid) {
+            setStep(prev => Math.min(prev + 1, 3))
+        }
     }
 
     const prevStep = () => {

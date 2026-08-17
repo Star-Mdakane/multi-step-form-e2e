@@ -8,5 +8,6 @@
     --color-input-pri: rgb(214, 217, 230);
     --color-input-focus: rgb(72, 62, 255);
     --color-error: rgb(238, 55, 74);
+    --color-radio: rgb(248, 249, 255);
     --shadow-main: [0px_25px_40px_-20px_rgb(0,0,0_10)];
 }

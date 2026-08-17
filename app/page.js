@@ -10,6 +10,12 @@ import Summary from "@/components/Summary/Summary";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 
+const PRICES = {
+  arcade: { monthly: 9, yearly: 90 },
+  advanced: { monthly: 12, yearly: 120 },
+  pro: { monthly: 15, yearly: 150 }
+}
+
 export default function Home() {
 
   const [step, setStep] = useState(0);
@@ -22,6 +28,17 @@ export default function Home() {
 
   const data = useWatch({
     control,
+  })
+
+  const billing = useWatch({
+    control,
+    name: "billing",
+    defaultValue: "monthly"
+  })
+
+  const plan = useWatch({
+    control,
+    name: "plan",
   })
 
   const [loaded, setLoaded] = useState(false);
@@ -56,7 +73,7 @@ export default function Home() {
       title: "Select your plan",
       desc: "You have the option of monthly or yearly billing.",
       component: (
-        <SelectPlan />
+        <SelectPlan billing={billing} prices={PRICES} />
       )
     },
     {
@@ -77,6 +94,7 @@ export default function Home() {
     },
   ]
 
+
   return (
     <FormProvider {...methods}>
       <main id="main card" className="min-w-93.75 absolute pt-8 md:pt-0 bg-transparent left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[15px] w-93.75 h-full md:w-172 lg:w-235 md:h-150 md:bg-white md:shadow-main flex flex-col space-y-8 md:space-y-0 md:flex-row">
@@ -86,7 +104,7 @@ export default function Home() {
           <NavBar step={step} setStep={setStep} />
         </nav>
         <section id="step-container"
-          className="w-86 md:w-md lg:w-158.5 mx-auto bg-white shadow-main md:shadow-none rounded-[10px] px-6 py-8 md:p-0 flex justify-center items-center">
+          className="w-86 md:w-md lg:w-158.5 mx-auto bg-white shadow-main md:shadow-none rounded-[10px] py-8 md:p-0 flex justify-center items-center">
           <StepContainer step={step} steps={steps} setStep={setStep} />
         </section>
         <footer

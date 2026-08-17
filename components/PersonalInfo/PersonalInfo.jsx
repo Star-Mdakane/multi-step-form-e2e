@@ -8,7 +8,7 @@ const PersonalInfo = () => {
 
     return (
         <form
-            className="space-y-6">
+            className="space-y-6 px-6">
             <label className="flex flex-col gap-2">
                 <div className="text-[14px] leading-[120%] tracking-normal font-normal flex justify-between">
                     <p className="text-pri">Name</p>

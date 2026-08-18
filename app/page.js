@@ -1,5 +1,10 @@
 'use client'
 
+if (typeof window !== 'undefined') {
+  window.addEventListener('error', (e) => alert(e.message))
+  window.addEventListener('unhandledrejection', (e) => alert(e.reason))
+}
+
 import AddOns from "@/components/AddOns/AddOns";
 import ButtonContainer from "@/components/ButtonContainer/ButtonContainer";
 import CompletePage from "@/components/CompletePage/CompletePage";
@@ -21,6 +26,11 @@ const PRICES = {
 }
 
 export default function Home() {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   const [step, setStep] = useState(0);
 
@@ -66,12 +76,14 @@ export default function Home() {
   const [completed, setCompleted] = useState(false)
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (!isClient) return;
     try {
       const saved = localStorage.getItem('multi-step')
       if (saved) reset(JSON.parse(saved))
     } catch (e) { }
-  }, [reset]);
+  }, [isClient, reset]);
+
+
 
   useEffect(() => {
     if (!loaded) return;

@@ -43,14 +43,14 @@ const SelectPlan = ({ billing, prices, plan }) => {
                                         src={`/images/icon-${p.key}.svg`}
                                         width={40}
                                         height={40}
-                                        alt="plan immage" />
+                                        alt={`${p.name} plan icon`} />
                                     <span>
                                         <p
                                             className="text-[16px] text-pri leading-[120%] tracking-normal font-medium first-letter:uppercase"
-                                        >{p}</p>
+                                        >{p.name}</p>
                                         <p
                                             className="text-[14px] text-text-pri leading-[120%] tracking-normal font-normal"
-                                        >${prices[p.key][billing]}/{billing === "monthly" ? 'mo' : 'yr'}</p>
+                                        >${prices[p.key]?.[billing] ?? 0}/{billing === "monthly" ? 'mo' : 'yr'}</p>
                                     </span>
                                 </div>
                                 <p
@@ -62,6 +62,7 @@ const SelectPlan = ({ billing, prices, plan }) => {
                     ))
                 }
             </div>
+            {errors.plan && <p className="text-red-500 text-sm">{errors.plan.message}</p>}
             <div
                 className="w-73.75 md:w-full h-12 flex justify-center items-center gap-6 bg-radio rounded-lg">
                 <p

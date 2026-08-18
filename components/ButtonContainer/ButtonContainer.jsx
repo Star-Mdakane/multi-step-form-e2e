@@ -2,12 +2,13 @@
 
 import { useFormContext } from "react-hook-form";
 
-const ButtonContainer = ({ step, setStep }) => {
+const ButtonContainer = ({ step, setStep, setCompleted }) => {
 
     const { trigger, handleSubmit } = useFormContext();
 
     const onSubmit = (data) => {
         console.log(data);
+        setCompleted(true)
     };
 
     const nextStep = async () => {

@@ -2,6 +2,7 @@
 
 import AddOns from "@/components/AddOns/AddOns";
 import ButtonContainer from "@/components/ButtonContainer/ButtonContainer";
+import CompletePage from "@/components/CompletePage/CompletePage";
 import NavBar from "@/components/NavBar/NavBar";
 import PersonalInfo from "@/components/PersonalInfo/PersonalInfo";
 import SelectPlan from "@/components/SelectPlan/SelectPlan";
@@ -62,6 +63,7 @@ export default function Home() {
   const total = planPrice + addonsPrice;
 
   const [loaded, setLoaded] = useState(false);
+  const [completed, setCompleted] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem("multi-step");
@@ -146,12 +148,16 @@ export default function Home() {
         </nav>
         <section id="step-container"
           className="w-86 md:w-md lg:w-158.5 mx-auto h-auto bg-white shadow-main md:shadow-none rounded-[10px] py-8 md:p-0 flex justify-center items-center">
-          <StepContainer step={step} steps={steps} setStep={setStep} />
+          {completed ?
+            <CompletePage />
+            :
+            <StepContainer step={step} steps={steps} setStep={setStep} />
+          }
         </section>
         <footer
           className="absolute w-93.75 min-w-93.75 bottom-0 left-0 flex md:hidden"
         >
-          <ButtonContainer step={step} setStep={setStep} />
+          <ButtonContainer step={step} setStep={setStep} setCompleted={setCompleted} />
         </footer>
       </main>
     </FormProvider>

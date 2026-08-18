@@ -26,7 +26,7 @@ const NavBar = ({ step, setStep }) => {
 
     return (
         <ul
-            className="flex md:flex-col md:h-full rounded-[15px] md:bg-[url('../public/images/bg-sidebar-desktop.svg')] bg-no-repeat bg-cover bg-center md:px-6 py-10 md:space-y-8 gap-x-4 md:gap-x-0"
+            className="flex md:flex-col md:h-full rounded-[15px] md:bg-[url('../public/images/bg-sidebar-desktop.svg')] bg-no-repeat bg-cover bg-center md:px-6 md:py-10 md:space-y-8 gap-x-4 md:gap-x-0"
         >
             {navSteps.map((s, idx) => (
                 <button

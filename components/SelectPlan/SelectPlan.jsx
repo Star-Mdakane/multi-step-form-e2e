@@ -14,72 +14,46 @@ const SelectPlan = ({ billing, prices }) => {
 
     return (
 
-
-        <div
-            className="flex flex-col gap-6"
-        >
-            {
-                ["arcade", "advanced", "pro"].map(p => (
-                    <label
-                        key={p}
-                        className="grid grid-cols-1 lg:grid-cols-3 gap-2 lg:gap-0 lg:justify-between px-6"
-                    >
-                        <input type="radio" value={p} {...register('plan')} className="sr-only" />
-                        <div
-                            className="w-full h-20 md:h-40 flex md:flex-col justify-between items-center"
-                        >
-                            <div className="flex gap-4" >
-                                <Image
-                                    src={`/images/icon-${p}.svg`}
-                                    width={40}
-                                    height={40}
-                                    alt="plan immage" />
-                                <span>
-                                    <p
-                                        className="text-[16px] text-pri leading-[120%] tracking-normal font-medium first-letter:uppercase"
-                                    >{p}</p>
-                                    <p
-                                        className="text-[14px] text-text-pri leading-[120%] tracking-normal font-normal"
-                                    >${prices[p][billing]}/{billing === "monthly" ? 'mo' : 'yr'}</p>
-                                </span>
-                            </div>
-                            <p
-                                className="text-[12px] text-pri leading-[120%] tracking-normal font-normal">
-                                {billing === "yearly" ? '2 Months free' : ''}
-                            </p>
-                        </div>
-                    </label>
-                ))
-            }
-            {/* <div
-                className="grid grid-cols-1 lg:grid-cols-3 gap-2 lg:gap-0 lg:justify-between"
-            >
-                <div
-                    className="w-full h-20 md:h-40 flex md:flex-col justify-between items-center"
-                >
-                    <div className="flex gap-4" >
-                        <Image
-                            src={'/images/icon-arcade.svg'}
-                            width={40}
-                            height={40}
-                            alt="plan immage" />
-                        <span>
-                            <p
-                                className="text-[16px] text-pri leading-[120%] tracking-normal font-medium"
-                            >Arcade</p>
-                            <p
-                                className="text-[14px] text-text-pri leading-[120%] tracking-normal font-normal"
-                            >$9/mo</p>
-                        </span>
-                    </div>
-                    <p
-                        className="text-[12px] text-pri leading-[120%] tracking-normal font-normal">
-                        2 months free
-                    </p>
-                </div>
-            </div> */}
+        <div className="space-y-6 lg:space-y-8 px-6 md:px-0 bg-white rounded-lg">
             <div
-                className="h-12 w-86 flex justify-center items-center gap-6 bg-radio rounded-lg">
+                className="w-full grid grid-cols-1 lg:grid-cols-3 gap-2 lg:gap-0 lg:justify-between"
+            >
+                {
+                    ["arcade", "advanced", "pro"].map(p => (
+                        <label
+                            key={p}
+                            className="w-full h-20 lg:h-40 lg:w-34.5 flex px-6 lg:p-4 rounded-lg has-checked:bg-input-pri border border-input-pri has-checked:border-input-focus hover:border-input-focus"
+                        >
+                            <input type="radio" value={p} {...register('plan')} className="sr-only" />
+                            <div
+                                className="w-full flex lg:flex-col justify-between items-center lg:items-start"
+                            >
+                                <div className="flex gap-4 lg:flex-col justify-between" >
+                                    <Image
+                                        src={`/images/icon-${p}.svg`}
+                                        width={40}
+                                        height={40}
+                                        alt="plan immage" />
+                                    <span>
+                                        <p
+                                            className="text-[16px] text-pri leading-[120%] tracking-normal font-medium first-letter:uppercase"
+                                        >{p}</p>
+                                        <p
+                                            className="text-[14px] text-text-pri leading-[120%] tracking-normal font-normal"
+                                        >${prices[p][billing]}/{billing === "monthly" ? 'mo' : 'yr'}</p>
+                                    </span>
+                                </div>
+                                <p
+                                    className="text-[12px] text-pri leading-[120%] tracking-normal font-normal">
+                                    {billing === "yearly" ? '2 Months free' : ''}
+                                </p>
+                            </div>
+                        </label>
+                    ))
+                }
+            </div>
+            <div
+                className="w-73.75 md:w-full h-12 flex justify-center items-center gap-6 bg-radio rounded-lg">
                 <p
                     className="text-[14px] text-text-pri leading-[150%] tracking-normal font-medium">
                     Monthly

@@ -41,6 +41,12 @@ export default function Home() {
     name: "plan",
   })
 
+  const addons = useWatch({
+    control,
+    name: "addons",
+    defaultValue: {}
+  })
+
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -104,7 +110,7 @@ export default function Home() {
           <NavBar step={step} setStep={setStep} />
         </nav>
         <section id="step-container"
-          className="w-86 md:w-md lg:w-158.5 mx-auto bg-white shadow-main md:shadow-none rounded-[10px] py-8 md:p-0 flex justify-center items-center">
+          className="w-86 md:w-md lg:w-158.5 mx-auto h-auto bg-white shadow-main md:shadow-none rounded-[10px] py-8 md:p-0 flex justify-center items-center">
           <StepContainer step={step} steps={steps} setStep={setStep} />
         </section>
         <footer

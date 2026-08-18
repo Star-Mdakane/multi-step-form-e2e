@@ -1,3 +1,5 @@
+import { useFormContext } from "react-hook-form"
+
 const NavBar = ({ step, setStep }) => {
 
     const { trigger } = useFormContext()
@@ -32,7 +34,7 @@ const NavBar = ({ step, setStep }) => {
     const handleNavClick = async (targetIdx) => {
         if (targetIdx > step) {
             const currentFields = navSteps[step].fields
-            const isValid = await trigger()
+            const isValid = await trigger(currentFields)
             if (!isValid) return
         }
         setStep(targetIdx)

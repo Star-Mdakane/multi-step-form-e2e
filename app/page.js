@@ -67,7 +67,7 @@ export default function Home() {
 
   //Calculations
   const planPrice = PRICES[plan]?.[billing] ?? 0;
-  const addonsPrice = Object.keys(addons)
+  const addonsPrice = Object.keys(addons || {})
     .filter(k => addons[k])
     .reduce((sum, k) => sum + PRICES[k][billing], 0);
   const total = planPrice + addonsPrice;

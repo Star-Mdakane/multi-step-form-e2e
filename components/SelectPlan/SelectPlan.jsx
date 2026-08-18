@@ -1,7 +1,7 @@
 import Image from "next/image"
 import { useFormContext } from "react-hook-form"
 
-const SelectPlan = ({ billing, prices }) => {
+const SelectPlan = ({ billing, prices, plan }) => {
     const { register, setValue, formState: { errors } } = useFormContext()
 
     const toggleBilling = () => {
@@ -11,6 +11,12 @@ const SelectPlan = ({ billing, prices }) => {
             { shouldValidate: true }
         )
     }
+
+    const plans = [
+        { key: "arcade", name: "Arcade" },
+        { key: "advanced", name: "Advanced" },
+        { key: "pro", name: "Pro" },
+    ]
 
     return (
 

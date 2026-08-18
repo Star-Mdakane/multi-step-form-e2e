@@ -13,7 +13,10 @@ import { FormProvider, useForm, useWatch } from "react-hook-form";
 const PRICES = {
   arcade: { monthly: 9, yearly: 90 },
   advanced: { monthly: 12, yearly: 120 },
-  pro: { monthly: 15, yearly: 150 }
+  pro: { monthly: 15, yearly: 150 },
+  onlineService: { monthly: 1, yearly: 10 },
+  largerStorage: { monthly: 2, yearly: 20 },
+  customizableProfile: { monthly: 2, yearly: 20 }
 }
 
 export default function Home() {
@@ -22,9 +25,14 @@ export default function Home() {
 
   const methods = useForm({
     mode: "onBlur",
+    defaultValues: {
+      billing: "monthly",
+      plan: "",
+      addons: {}
+    }
   });
 
-  const { control, reset } = methods;
+  const { control, reset, getValues } = methods;
 
   const data = useWatch({
     control,
@@ -32,8 +40,7 @@ export default function Home() {
 
   const billing = useWatch({
     control,
-    name: "billing",
-    defaultValue: "monthly"
+    name: "billing"
   })
 
   const plan = useWatch({
@@ -44,7 +51,6 @@ export default function Home() {
   const addons = useWatch({
     control,
     name: "addons",
-    defaultValue: {}
   })
 
   const [loaded, setLoaded] = useState(false);
@@ -62,8 +68,10 @@ export default function Home() {
     if (!loaded) return;
     console.log("data changed:", data);
 
-    localStorage.setItem("multi-step", JSON.stringify(data));
-  }, [data, loaded]);
+    const currentData = getValues();
+
+    localStorage.setItem("multi-step", JSON.stringify(currentData));
+  }, [billing, plan, addons, getValues, loaded]);
 
   const steps = [
     {
@@ -79,7 +87,7 @@ export default function Home() {
       title: "Select your plan",
       desc: "You have the option of monthly or yearly billing.",
       component: (
-        <SelectPlan billing={billing} prices={PRICES} />
+        <SelectPlan billing={billing} prices={PRICES} plan={plan} />
       )
     },
     {
@@ -87,7 +95,7 @@ export default function Home() {
       title: "Pick add-ons",
       desc: "Add-ons help enhance your gaming experience.",
       component: (
-        <AddOns />
+        <AddOns billing={billing} prices={PRICES} addons={addons} />
       )
     },
     {

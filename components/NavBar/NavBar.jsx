@@ -1,28 +1,43 @@
 const NavBar = ({ step, setStep }) => {
 
+    const { trigger } = useFormContext()
+
     const navSteps = [
         {
             id: 1,
             navStep: 'step 1',
-            navTitle: 'Your info'
+            navTitle: 'Your info',
+            fields: ['name', 'email', 'phone']
         },
         {
             id: 2,
             navStep: 'step 2',
-            navTitle: 'Select plan'
+            navTitle: 'Select plan',
+            fields: ['plan']
         },
         {
             id: 3,
             navStep: 'step 3',
-            navTitle: 'Add-ons'
+            navTitle: 'Add-ons',
+            fields: []
         },
         {
             id: 4,
             navStep: 'step 4',
-            navTitle: 'Summary'
+            navTitle: 'Summary',
+            fields: []
         }
     ]
 
+    const handleNavClick = async (targetIdx) => {
+        if (targetIdx > step) {
+            const currentFields = navSteps[step].fields
+            const isValid = await trigger()
+            if (!isValid) return
+        }
+        setStep(targetIdx)
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
 
     return (
         <ul
@@ -30,7 +45,7 @@ const NavBar = ({ step, setStep }) => {
         >
             {navSteps.map((s, idx) => (
                 <button
-                    onClick={() => setStep(prev => prev = idx)}
+                    onClick={() => handleNavClick(idx)}
                     key={idx}
                     className="flex gap-4 cursor-pointer"
                     type="button"

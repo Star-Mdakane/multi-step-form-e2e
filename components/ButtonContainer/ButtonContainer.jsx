@@ -14,22 +14,20 @@ const ButtonContainer = ({ step, setStep, setCompleted }) => {
 
     const onSubmit = async (data) => {
         console.log(data);
-        const isValid = await trigger() // 👈 only trigger once
+        const isValid = await trigger()
         if (!isValid) return;
 
-        try {
-            localStorage.removeItem('multi-step')
-        } catch (e) {
-            console.log("localStorage blocked", e)
-        }
-
         reset({
+            name: "",
+            email: "",
+            phone: "",
             billing: "monthly",
             plan: "",
             addons: {}
         })
         setCompleted(true)
-        setStep(() => 0)
+        setStep(0)
+        localStorage.removeItem('multi-step')
 
         timeOutRef.current = setTimeout(() => {
             setCompleted(false)

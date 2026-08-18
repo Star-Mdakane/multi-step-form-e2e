@@ -56,7 +56,7 @@ export default function Home() {
   })
 
   //Calculations
-  const planPrice = plan ? PRICES[plan][billing] : 0;
+  const planPrice = PRICES[plan]?.[billing] ?? 0;
   const addonsPrice = Object.keys(addons)
     .filter(k => addons[k])
     .reduce((sum, k) => sum + PRICES[k][billing], 0);
@@ -66,12 +66,16 @@ export default function Home() {
   const [completed, setCompleted] = useState(false)
 
   useEffect(() => {
-    const saved = localStorage.getItem("multi-step");
-
+    if (typeof window === 'undefined') return
+    const saved = localStorage.getItem('multi-step')
     if (saved) {
-      reset(JSON.parse(saved));
+      try {
+        reset(JSON.parse(saved))
+      } catch (e) {
+        console.error("Bad localStorage data", e)
+        localStorage.removeItem('multi-step')
+      }
     }
-    setLoaded(true);
   }, [reset]);
 
   useEffect(() => {
@@ -80,7 +84,7 @@ export default function Home() {
 
     const currentData = getValues();
 
-    localStorage.setItem("multi-step", JSON.stringify(currentData));
+    localStorage.setItem('multi-step', JSON.stringify(currentData));
   }, [billing, plan, addons, getValues, loaded, data]);
 
   const added = [
@@ -136,7 +140,11 @@ export default function Home() {
     },
   ]
 
-
+  useEffect(() => {
+    window.addEventListener('unhandledrejection', e => {
+      console.error('Promise rejection')
+    })
+  }, [])
 
   return (
     <FormProvider {...methods}>

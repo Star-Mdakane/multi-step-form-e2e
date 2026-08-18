@@ -8,8 +8,9 @@ const ButtonContainer = ({ step, setStep, setCompleted }) => {
     const { trigger, handleSubmit, reset } = useFormContext();
     const timeOutRef = useRef(null)
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log(data);
+        await trigger()
         localStorage.clear()
         reset({
             billing: "monthly",
@@ -17,7 +18,7 @@ const ButtonContainer = ({ step, setStep, setCompleted }) => {
             addons: {}
         })
         setCompleted(true)
-        setStep(0)
+        setStep(() => 0)
 
         timeOutRef.current = setTimeout(() => {
             setCompleted(false)

@@ -25,18 +25,22 @@ const SelectPlan = ({ billing, prices, plan }) => {
                 className="w-full grid grid-cols-1 lg:grid-cols-3 gap-2 lg:gap-0 lg:justify-between"
             >
                 {
-                    ["arcade", "advanced", "pro"].map(p => (
+                    plans.map(p => (
                         <label
-                            key={p}
+                            key={p.key}
                             className="w-full h-20 lg:h-40 lg:w-34.5 flex px-6 lg:p-4 rounded-lg has-checked:bg-input-pri border border-input-pri has-checked:border-input-focus hover:border-input-focus"
                         >
-                            <input type="radio" value={p} {...register('plan')} className="sr-only" />
+                            <input type="radio"
+                                value={p.key}
+                                {...register('plan', { required: "Please select a plan" })}
+                                defaultChecked={plan === p.key}
+                                className="sr-only" />
                             <div
                                 className="w-full flex lg:flex-col justify-between items-center lg:items-start"
                             >
                                 <div className="flex gap-4 lg:flex-col justify-between" >
                                     <Image
-                                        src={`/images/icon-${p}.svg`}
+                                        src={`/images/icon-${p.key}.svg`}
                                         width={40}
                                         height={40}
                                         alt="plan immage" />
@@ -46,7 +50,7 @@ const SelectPlan = ({ billing, prices, plan }) => {
                                         >{p}</p>
                                         <p
                                             className="text-[14px] text-text-pri leading-[120%] tracking-normal font-normal"
-                                        >${prices[p][billing]}/{billing === "monthly" ? 'mo' : 'yr'}</p>
+                                        >${prices[p.key][billing]}/{billing === "monthly" ? 'mo' : 'yr'}</p>
                                     </span>
                                 </div>
                                 <p

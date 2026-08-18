@@ -1,15 +1,30 @@
 'use client'
 
+import { useRef } from "react";
 import { useFormContext } from "react-hook-form";
 
 const ButtonContainer = ({ step, setStep, setCompleted }) => {
 
-    const { trigger, handleSubmit } = useFormContext();
+    const { trigger, handleSubmit, reset } = useFormContext();
+    const timeOutRef = useRef(null)
 
     const onSubmit = (data) => {
         console.log(data);
+        localStorage.clear()
+        reset({
+            billing: "monthly",
+            plan: "",
+            addons: {}
+        })
         setCompleted(true)
+        setStep(0)
+
+        timeOutRef.current = setTimeout(() => {
+            setCompleted(false)
+        }, 5000)
     };
+
+
 
     const nextStep = async () => {
         if (step === 3) {

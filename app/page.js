@@ -151,13 +151,13 @@ export default function Home() {
           {completed ?
             <CompletePage />
             :
-            <StepContainer step={step} steps={steps} setStep={setStep} />
+            <StepContainer step={step} steps={steps} setStep={setStep} setCompleted={setCompleted} completed={completed} />
           }
         </section>
         <footer
           className="absolute w-93.75 min-w-93.75 bottom-0 left-0 flex md:hidden"
         >
-          <ButtonContainer step={step} setStep={setStep} setCompleted={setCompleted} />
+          {completed ? "" : <ButtonContainer step={step} setStep={setStep} setCompleted={setCompleted} />}
         </footer>
       </main>
     </FormProvider>

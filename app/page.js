@@ -66,16 +66,11 @@ export default function Home() {
   const [completed, setCompleted] = useState(false)
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    const saved = localStorage.getItem('multi-step')
-    if (saved) {
-      try {
-        reset(JSON.parse(saved))
-      } catch (e) {
-        console.error("Bad localStorage data", e)
-        localStorage.removeItem('multi-step')
-      }
-    }
+    if (typeof window === 'undefined') return;
+    try {
+      const saved = localStorage.getItem('multi-step')
+      if (saved) reset(JSON.parse(saved))
+    } catch (e) { }
   }, [reset]);
 
   useEffect(() => {

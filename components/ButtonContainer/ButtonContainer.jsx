@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 const ButtonContainer = ({ step, setStep, setCompleted }) => {
@@ -8,10 +8,21 @@ const ButtonContainer = ({ step, setStep, setCompleted }) => {
     const { trigger, handleSubmit, reset } = useFormContext();
     const timeOutRef = useRef(null)
 
+    useEffect(() => {
+        return () => clearTimeout(timeOutRef.current)
+    }, [])
+
     const onSubmit = async (data) => {
         console.log(data);
-        await trigger()
-        localStorage.clear()
+        const isValid = await trigger() // 👈 only trigger once
+        if (!isValid) return;
+
+        try {
+            localStorage.removeItem('multi-step')
+        } catch (e) {
+            console.log("localStorage blocked", e)
+        }
+
         reset({
             billing: "monthly",
             plan: "",

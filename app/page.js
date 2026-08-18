@@ -34,6 +34,7 @@ export default function Home() {
 
   const { control, reset, getValues } = methods;
 
+  //For ui and calculation
   const data = useWatch({
     control,
   })
@@ -53,6 +54,13 @@ export default function Home() {
     name: "addons",
   })
 
+  //Calculations
+  const planPrice = plan ? PRICES[plan][billing] : 0;
+  const addonsPrice = Object.keys(addons)
+    .filter(k => addons[k])
+    .reduce((sum, k) => sum + PRICES[k][billing], 0);
+  const total = planPrice + addonsPrice;
+
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -71,7 +79,25 @@ export default function Home() {
     const currentData = getValues();
 
     localStorage.setItem("multi-step", JSON.stringify(currentData));
-  }, [billing, plan, addons, getValues, loaded]);
+  }, [billing, plan, addons, getValues, loaded, data]);
+
+  const added = [
+    {
+      key: "onlineService",
+      name: "Online service",
+      desc: "Access to multiplayer games"
+    },
+    {
+      key: "largerStorage",
+      name: "Larger storage",
+      desc: "Extra 1TB of cloud save"
+    },
+    {
+      key: "customizableProfile",
+      name: "Customizable profile",
+      desc: "Custom theme on your profile"
+    },
+  ]
 
   const steps = [
     {
@@ -95,7 +121,7 @@ export default function Home() {
       title: "Pick add-ons",
       desc: "Add-ons help enhance your gaming experience.",
       component: (
-        <AddOns billing={billing} prices={PRICES} addons={addons} />
+        <AddOns billing={billing} prices={PRICES} addons={addons} added={added} />
       )
     },
     {
@@ -103,10 +129,11 @@ export default function Home() {
       title: "Finishing up",
       desc: "Double-check everything looks OK before confirming.",
       component: (
-        <Summary />
+        <Summary setStep={setStep} billing={billing} prices={PRICES} plan={plan} planPrice={planPrice} addonsPrice={addonsPrice} addons={addons} total={total} added={added} />
       )
     },
   ]
+
 
 
   return (

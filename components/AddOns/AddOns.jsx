@@ -1,33 +1,15 @@
 import { useFormContext } from "react-hook-form"
 import { FaCheck } from "react-icons/fa"
 
-const AddOns = ({ billing, prices, addons = {} }) => {
+const AddOns = ({ billing, prices, addons = {}, added }) => {
 
     const { register, formState: { errors } } = useFormContext()
-
-    const added = [
-        {
-            key: "onlineService",
-            name: "Online service",
-            desc: "Access to multiplayer games"
-        },
-        {
-            key: "largerStorage",
-            name: "Larger storage",
-            desc: "Extra 1TB of cloud save"
-        },
-        {
-            key: "customizableProfile",
-            name: "Customizable profile",
-            desc: "Custom theme on your profile"
-        },
-    ]
 
     return (
         <div
             className="px-6 md:px-0 flex flex-col gap-2 md:gap-4"
         >
-            {added.map(a => (
+            {added?.map(a => (
                 <label
                     key={a.key}
                     className="w-full py-3 px-4 md:px-6 md:py-4.5 flex items-center justify-between h-15.5 md:h-20 rounded-lg has-checked:bg-input-pri border border-input-pri has-checked:border-input-focus hover:border-input-focus"

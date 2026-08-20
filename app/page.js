@@ -26,24 +26,24 @@ const PRICES = {
 }
 
 export default function Home() {
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
+  const [isMounted, setIsMounted] = useState(false)
   const [step, setStep] = useState(0);
+  const [completedSteps, setCompletedSteps] = useState([])
 
   const methods = useForm({
-    mode: "onBlur",
+    mode: "onChange",
+    reValidateMode: "onChange",
     defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
       billing: "monthly",
       plan: "",
       addons: {}
     }
   });
 
-  const { control, reset, getValues } = methods;
+  const { control, reset, getValues, watch } = methods;
 
   //For ui and calculation
   const data = useWatch({
@@ -72,45 +72,34 @@ export default function Home() {
     .reduce((sum, k) => sum + PRICES[k][billing], 0);
   const total = planPrice + addonsPrice;
 
-  const [loaded, setLoaded] = useState(false);
   const [completed, setCompleted] = useState(false)
 
   useEffect(() => {
-    if (!isClient) return;
-    try {
-      const saved = localStorage.getItem('multi-step')
-      if (saved) reset(JSON.parse(saved))
-    } catch (e) { }
-  }, [isClient, reset]);
+    localStorage.removeItem('multi-step')
+    setCompletedSteps([])
+  }, [])
 
+  useEffect(() => {
+    const saved = localStorage.getItem('multi-step')
+    if (saved) {
+      try {
+        reset(JSON.parse(saved), { keepDefaultValues: true })
+      } catch { }
+    }
+    setIsMounted(true)
+  }, [reset]);
 
 
   useEffect(() => {
-    if (!loaded) return;
+    if (!isMounted) return;
     console.log("data changed:", data);
+    localStorage.setItem('multi-step', JSON.stringify(getValues()))
+    const subscription = watch((value) => {
+      localStorage.setItem('multi-step', JSON.stringify(value))
+    })
+    return () => subscription.unsubscribe()
+  }, [watch, isMounted, getValues, data]);
 
-    const currentData = getValues();
-
-    localStorage.setItem('multi-step', JSON.stringify(currentData));
-  }, [billing, plan, addons, getValues, loaded, data]);
-
-  const added = [
-    {
-      key: "onlineService",
-      name: "Online service",
-      desc: "Access to multiplayer games"
-    },
-    {
-      key: "largerStorage",
-      name: "Larger storage",
-      desc: "Extra 1TB of cloud save"
-    },
-    {
-      key: "customizableProfile",
-      name: "Customizable profile",
-      desc: "Custom theme on your profile"
-    },
-  ]
 
   const steps = [
     {
@@ -134,7 +123,7 @@ export default function Home() {
       title: "Pick add-ons",
       desc: "Add-ons help enhance your gaming experience.",
       component: (
-        <AddOns billing={billing} prices={PRICES} addons={addons} added={added} />
+        <AddOns billing={billing} prices={PRICES} addons={addons} />
       )
     },
     {
@@ -142,7 +131,7 @@ export default function Home() {
       title: "Finishing up",
       desc: "Double-check everything looks OK before confirming.",
       component: (
-        <Summary setStep={setStep} billing={billing} prices={PRICES} plan={plan} planPrice={planPrice} addonsPrice={addonsPrice} addons={addons} total={total} added={added} />
+        <Summary setStep={setStep} billing={billing} prices={PRICES} plan={plan} planPrice={planPrice} addonsPrice={addonsPrice} addons={addons} total={total} />
       )
     },
   ]
@@ -159,20 +148,20 @@ export default function Home() {
         <nav id="nav"
           className="w-45 md:w-59.5 lg:w-76.5 mx-auto md:p-4"
         >
-          <NavBar step={step} setStep={setStep} />
+          <NavBar step={step} setStep={setStep} trigger={methods.trigger} completedSteps={completedSteps} setCompletedSteps={setCompletedSteps} />
         </nav>
         <section id="step-container"
           className="w-86 md:w-md lg:w-158.5 mx-auto h-auto bg-white shadow-main md:shadow-none rounded-[10px] py-8 md:p-0 flex justify-center items-center">
           {completed ?
             <CompletePage />
             :
-            <StepContainer step={step} steps={steps} setStep={setStep} setCompleted={setCompleted} completed={completed} />
+            <StepContainer step={step} steps={steps} setStep={setStep} setCompleted={setCompleted} completed={completed} completedSteps={completedSteps} setCompletedSteps={setCompletedSteps} />
           }
         </section>
         <footer
           className="absolute w-93.75 min-w-93.75 bottom-0 left-0 flex md:hidden"
         >
-          {completed ? "" : <ButtonContainer step={step} setStep={setStep} setCompleted={setCompleted} />}
+          {completed ? "" : <ButtonContainer step={step} setStep={setStep} setCompleted={setCompleted} completedSteps={completedSteps} setCompletedSteps={setCompletedSteps} />}
         </footer>
       </main>
     </FormProvider>

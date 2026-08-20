@@ -8,7 +8,7 @@ const SelectPlan = ({ billing, prices, plan }) => {
         setValue(
             "billing",
             billing === "monthly" ? "yearly" : "monthly",
-            { shouldValidate: true }
+            { shouldValidate: true, shouldDirty: true }
         )
     }
 

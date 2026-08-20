@@ -3,10 +3,11 @@
 import { useRef, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
-const ButtonContainer = ({ step, setStep, setCompleted }) => {
+const ButtonContainer = ({ step, setStep, setCompleted, completedSteps, setCompletedSteps }) => {
 
-    const { trigger, handleSubmit, reset } = useFormContext();
+    const { handleSubmit, reset, trigger } = useFormContext();
     const timeOutRef = useRef(null)
+    const isFullyUnlocked = completedSteps.includes(1)
 
     useEffect(() => {
         return () => clearTimeout(timeOutRef.current)
@@ -14,8 +15,8 @@ const ButtonContainer = ({ step, setStep, setCompleted }) => {
 
     const onSubmit = async (data) => {
         console.log(data);
-        const isValid = await trigger()
-        if (!isValid) return;
+
+        localStorage.removeItem('multi-step')
 
         reset({
             name: "",
@@ -27,26 +28,38 @@ const ButtonContainer = ({ step, setStep, setCompleted }) => {
         })
         setCompleted(true)
         setStep(0)
-        localStorage.removeItem('multi-step')
+        setCompletedSteps([])
+
 
         timeOutRef.current = setTimeout(() => {
             setCompleted(false)
         }, 5000)
     };
 
+    const fieldsByStep = {
+        0: ["name", "email", "phone"],
+        1: ["plan"],
+        2: [],
+        3: []
+    }
 
 
-    const nextStep = async () => {
+    const handleNext = async () => {
         if (step === 3) {
             handleSubmit(onSubmit)();
             return;
         }
 
-        const valid = await trigger()
+        if (!isFullyUnlocked) {
+            const currentFields = fieldsByStep[step]
+            const isValid = currentFields.length === 0 ? true : await trigger(currentFields, { shouldFocus: true })
 
-        if (valid) {
-            setStep(prev => Math.min(prev + 1, 3))
+            if (!isValid) return;
+
+            setCompletedSteps(prev => [...new Set([...prev, step])])
         }
+
+        setStep(prev => Math.min(prev + 1, 3))
     }
 
     const prevStep = () => {
@@ -67,7 +80,7 @@ const ButtonContainer = ({ step, setStep, setCompleted }) => {
             </button>
             <button type="button"
                 aria-label="next page"
-                onClick={nextStep}
+                onClick={handleNext}
                 className="w-24 md:w-31 h-10 md:h-12 cursor-pointer text-[14px] md:text-[16px] leading-[150%] md:leading-[120%] tracking-normal font-medium bg-pri hover:bg-pri-hover text-white rounded-sm md:rounded-lg transition-colors duration-300"
             >
                 {step === 3 ? 'Confirm' : 'Next Step'}

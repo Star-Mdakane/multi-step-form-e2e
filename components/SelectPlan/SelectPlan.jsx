@@ -40,7 +40,7 @@ const SelectPlan = ({ billing, prices, plan }) => {
                             <div
                                 className="w-full flex lg:flex-col justify-between items-center lg:items-start"
                             >
-                                <div className={`flex gap-4 lg:flex-col justify-between ${billing === "monthly" ? "h-full" : ""}`} >
+                                <div className={`flex gap-4 lg:flex-col justify-between lg:${billing === "monthly" ? "h-full" : ""}`} >
                                     <Image
                                         src={`/images/icon-${p.key}.svg`}
                                         width={40}

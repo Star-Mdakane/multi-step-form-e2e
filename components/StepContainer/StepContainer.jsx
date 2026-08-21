@@ -1,6 +1,6 @@
 import ButtonContainer from "../ButtonContainer/ButtonContainer";
 
-const StepContainer = ({ step, steps, setStep, completed, setCompleted, completedSteps, setCompletedSteps }) => {
+const StepContainer = ({ step, steps, setStep, completed, setCompleted, completedSteps, setCompletedSteps, onSubmit }) => {
 
     const page = steps[step]?.component;
 
@@ -25,7 +25,7 @@ const StepContainer = ({ step, steps, setStep, completed, setCompleted, complete
                 {page}
             </div>
             <div className="hidden md:block">
-                {completed ? "" : <ButtonContainer step={step} setStep={setStep} setCompleted={setCompleted} completedSteps={completedSteps} setCompletedSteps={setCompletedSteps} />}
+                {completed ? "" : <ButtonContainer step={step} setStep={setStep} setCompleted={setCompleted} completedSteps={completedSteps} setCompletedSteps={setCompletedSteps} onSubmit={onSubmit} />}
             </div>
         </div>
     )

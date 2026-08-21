@@ -1,10 +1,5 @@
 'use client'
 
-if (typeof window !== 'undefined') {
-  window.addEventListener('error', (e) => alert(e.message))
-  window.addEventListener('unhandledrejection', (e) => alert(e.reason))
-}
-
 import AddOns from "@/components/AddOns/AddOns";
 import ButtonContainer from "@/components/ButtonContainer/ButtonContainer";
 import CompletePage from "@/components/CompletePage/CompletePage";
@@ -13,7 +8,7 @@ import PersonalInfo from "@/components/PersonalInfo/PersonalInfo";
 import SelectPlan from "@/components/SelectPlan/SelectPlan";
 import StepContainer from "@/components/StepContainer/StepContainer";
 import Summary from "@/components/Summary/Summary";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 
 const PRICES = {
@@ -29,6 +24,8 @@ export default function Home() {
   const [isMounted, setIsMounted] = useState(false)
   const [step, setStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState([])
+  const [completed, setCompleted] = useState(false)
+  const timeoutRef = useRef(null)
 
   const methods = useForm({
     mode: "onChange",
@@ -45,10 +42,37 @@ export default function Home() {
 
   const { control, reset, getValues, watch } = methods;
 
+  const onSubmit = (data) => {
+    console.log(data);
+    localStorage.removeItem('multi-step')
+    setCompleted(true)
+
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+
+    timeoutRef.current = setTimeout(() => {
+      reset({
+        name: "",
+        email: "",
+        phone: "",
+        billing: "monthly",
+        plan: "",
+        addons: {}
+      })
+      setStep(0)
+      setCompletedSteps([])
+      setCompleted(false)
+    }, 5000)
+
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+
+  }, [])
+
   //For ui and calculation
-  const data = useWatch({
-    control,
-  })
 
   const billing = useWatch({
     control,
@@ -72,18 +96,12 @@ export default function Home() {
     .reduce((sum, k) => sum + PRICES[k][billing], 0);
   const total = planPrice + addonsPrice;
 
-  const [completed, setCompleted] = useState(false)
-
-  useEffect(() => {
-    localStorage.removeItem('multi-step')
-    setCompletedSteps([])
-  }, [])
-
   useEffect(() => {
     const saved = localStorage.getItem('multi-step')
     if (saved) {
       try {
-        reset(JSON.parse(saved), { keepDefaultValues: true })
+        const parsed = JSON.parse(saved)
+        reset(parsed)
       } catch { }
     }
     setIsMounted(true)
@@ -92,13 +110,12 @@ export default function Home() {
 
   useEffect(() => {
     if (!isMounted) return;
-    console.log("data changed:", data);
-    localStorage.setItem('multi-step', JSON.stringify(getValues()))
+    // console.log("data changed:", data);
     const subscription = watch((value) => {
       localStorage.setItem('multi-step', JSON.stringify(value))
     })
     return () => subscription.unsubscribe()
-  }, [watch, isMounted, getValues, data]);
+  }, [watch, isMounted]);
 
 
   const steps = [
@@ -136,11 +153,6 @@ export default function Home() {
     },
   ]
 
-  useEffect(() => {
-    window.addEventListener('unhandledrejection', e => {
-      console.error('Promise rejection')
-    })
-  }, [])
 
   return (
     <FormProvider {...methods}>
@@ -155,13 +167,13 @@ export default function Home() {
           {completed ?
             <CompletePage />
             :
-            <StepContainer step={step} steps={steps} setStep={setStep} setCompleted={setCompleted} completed={completed} completedSteps={completedSteps} setCompletedSteps={setCompletedSteps} />
+            <StepContainer step={step} steps={steps} setStep={setStep} setCompleted={setCompleted} completed={completed} completedSteps={completedSteps} setCompletedSteps={setCompletedSteps} onSubmit={onSubmit} />
           }
         </section>
         <footer
           className="absolute w-93.75 min-w-93.75 bottom-0 left-0 flex md:hidden"
         >
-          {completed ? "" : <ButtonContainer step={step} setStep={setStep} setCompleted={setCompleted} completedSteps={completedSteps} setCompletedSteps={setCompletedSteps} />}
+          {!completed && <ButtonContainer step={step} setStep={setStep} setCompleted={setCompleted} completedSteps={completedSteps} setCompletedSteps={setCompletedSteps} onSubmit={onSubmit} />}
         </footer>
       </main>
     </FormProvider>

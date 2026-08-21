@@ -37,9 +37,10 @@ const NavBar = ({ step, setStep, completedSteps, setCompletedSteps }) => {
     const handleNavClick = async (targetIdx) => {
         if (targetIdx === step) return
 
-        if (isFullyUnlocked || targetIdx < step || completedSteps.includes(targetIdx)) {
+        if (isFullyUnlocked || targetIdx < step) {
             setStep(targetIdx)
             window.scrollTo({ top: 0, behavior: 'smooth' })
+            return
         }
 
         if (targetIdx === step + 1) {
@@ -47,6 +48,9 @@ const NavBar = ({ step, setStep, completedSteps, setCompletedSteps }) => {
             const isValid = currentFields.length === 0 ? true : await trigger(currentFields, { shouldFocus: true })
 
             if (isValid) {
+                if (!completedSteps.includes(step)) {
+                    setCompletedSteps((prev) => [...prev, step])
+                }
                 setStep(targetIdx)
                 window.scrollTo({ top: 0, behavior: 'smooth' })
             }
@@ -59,15 +63,18 @@ const NavBar = ({ step, setStep, completedSteps, setCompletedSteps }) => {
         >
             {navSteps.map((s, idx) => {
                 const isNextStep = idx === step + 1
-                const canClick = idx <= step || isNextStep
+                const canClick = isFullyUnlocked || idx <= step || isNextStep
+                const isActive = step === idx
                 return (
                     <button
                         onClick={() => handleNavClick(idx)}
                         key={idx}
                         disabled={!canClick}
-                        className="flex gap-4 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+                        className="flex gap-4 cursor-pointer disabled:cursor-not-allowed"
                         type="button"
                         aria-label={`go to ${s.navTitle} page`}
+                        aria-current={isActive ? 'step' : undefined}
+                        aria-disabled={!canClick}
                     >
                         <div className={`w-8 h-8 text-[14px] font-bold leading-[120%] tracking-[1px] grid place-content-center border border-white rounded-full ${step === idx ? 'bg-nav-bg' : ''} ${step === idx ? 'text-pri' : 'text-white'} transition-colors duration-300`}>
                             {s.id}

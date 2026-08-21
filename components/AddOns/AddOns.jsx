@@ -7,13 +7,14 @@ const AddOns = ({ billing, prices, addons = {} }) => {
     const { register, formState: { errors } } = useFormContext()
 
     return (
-        <div
+        <fieldset
             className="px-6 md:px-0 flex flex-col gap-2 md:gap-4"
         >
+            <legend className="sr-only">Choose add-ons</legend>
             {ADDONS?.map(a => (
                 <label
                     key={a.key}
-                    className="w-full py-3 px-4 md:px-6 md:py-4.5 flex items-center justify-between h-15.5 md:h-20 rounded-lg has-checked:bg-input-pri border border-input-pri has-checked:border-input-focus hover:border-input-focus"
+                    className="w-full py-3 px-4 md:px-6 md:py-4.5 flex items-center justify-between h-15.5 md:h-20 rounded-lg has-checked:bg-input-pri border border-input-pri has-checked:border-input-focus hover:border-input-focus transition duration-300"
                 >
                     <div className="h-full flex items-center gap-4 md:gap-6">
                         <div
@@ -43,7 +44,7 @@ const AddOns = ({ billing, prices, addons = {} }) => {
                     </p>
                 </label>
             ))}
-        </div>
+        </fieldset>
     )
 }
 

@@ -1,40 +1,10 @@
 'use client'
 
-import { useRef, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
-const ButtonContainer = ({ step, setStep, setCompleted, completedSteps, setCompletedSteps }) => {
+const ButtonContainer = ({ step, setStep, onSubmit, setCompletedSteps }) => {
 
-    const { handleSubmit, reset, trigger } = useFormContext();
-    const timeOutRef = useRef(null)
-    const isFullyUnlocked = completedSteps.includes(1)
-
-    useEffect(() => {
-        return () => clearTimeout(timeOutRef.current)
-    }, [])
-
-    const onSubmit = async (data) => {
-        console.log(data);
-
-        localStorage.removeItem('multi-step')
-
-        reset({
-            name: "",
-            email: "",
-            phone: "",
-            billing: "monthly",
-            plan: "",
-            addons: {}
-        })
-        setCompleted(true)
-        setStep(0)
-        setCompletedSteps([])
-
-
-        timeOutRef.current = setTimeout(() => {
-            setCompleted(false)
-        }, 5000)
-    };
+    const { handleSubmit, trigger, getValues } = useFormContext();
 
     const fieldsByStep = {
         0: ["name", "email", "phone"],
@@ -43,23 +13,22 @@ const ButtonContainer = ({ step, setStep, setCompleted, completedSteps, setCompl
         3: []
     }
 
-
     const handleNext = async () => {
         if (step === 3) {
             handleSubmit(onSubmit)();
             return;
         }
 
-        if (!isFullyUnlocked) {
-            const currentFields = fieldsByStep[step]
-            const isValid = currentFields.length === 0 ? true : await trigger(currentFields, { shouldFocus: true })
 
-            if (!isValid) return;
+        const currentFields = fieldsByStep[step]
+        const isValid = currentFields.length === 0 ? true : await trigger(currentFields, { shouldFocus: true })
 
-            setCompletedSteps(prev => [...new Set([...prev, step])])
-        }
+        if (!isValid) return;
 
+        setCompletedSteps(prev => [...new Set([...prev, step])])
         setStep(prev => Math.min(prev + 1, 3))
+
+
     }
 
     const prevStep = () => {

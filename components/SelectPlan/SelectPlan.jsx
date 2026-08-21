@@ -21,24 +21,26 @@ const SelectPlan = ({ billing, prices, plan }) => {
     return (
 
         <div className="space-y-6 lg:space-y-8 px-6 md:px-0 bg-white rounded-lg">
-            <div
+            <fieldset
                 className="w-full grid grid-cols-1 lg:grid-cols-3 gap-2 lg:gap-0 lg:justify-between"
             >
+                <legend className="sr-only">Select your plan</legend>
                 {
                     plans.map(p => (
                         <label
                             key={p.key}
-                            className="w-full h-20 lg:h-40 lg:w-34.5 flex px-6 lg:p-4 rounded-lg has-checked:bg-input-pri border border-input-pri has-checked:border-input-focus hover:border-input-focus"
+                            className="w-full h-20 lg:h-40 lg:w-34.5 flex px-6 lg:p-4 rounded-lg has-checked:bg-input-pri border border-input-pri has-checked:border-input-focus hover:border-input-focus transition duration-300"
                         >
                             <input type="radio"
                                 value={p.key}
                                 {...register('plan', { required: "Please select a plan" })}
                                 defaultChecked={plan === p.key}
+                                aria-describedby="plan-error"
                                 className="sr-only" />
                             <div
                                 className="w-full flex lg:flex-col justify-between items-center lg:items-start"
                             >
-                                <div className="flex gap-4 lg:flex-col justify-between" >
+                                <div className={`flex gap-4 lg:flex-col justify-between ${billing === "monthly" ? "h-full" : ""}`} >
                                     <Image
                                         src={`/images/icon-${p.key}.svg`}
                                         width={40}
@@ -54,15 +56,15 @@ const SelectPlan = ({ billing, prices, plan }) => {
                                     </span>
                                 </div>
                                 <p
-                                    className="text-[12px] text-pri leading-[120%] tracking-normal font-normal">
+                                    className={`text-[12px] text-pri leading-[120%] tracking-normal font-normal `}>
                                     {billing === "yearly" ? '2 Months free' : ''}
                                 </p>
                             </div>
                         </label>
                     ))
                 }
-            </div>
-            {errors.plan && <p className="text-red-500 text-sm">{errors.plan.message}</p>}
+            </fieldset>
+            {errors.plan && <p id="plan-error" className="text-red-500 text-sm">{errors.plan.message}</p>}
             <div
                 className="w-73.75 md:w-full h-12 flex justify-center items-center gap-6 bg-radio rounded-lg">
                 <p

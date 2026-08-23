@@ -173,7 +173,7 @@ export default function Home() {
         <footer
           className="absolute w-93.75 min-w-93.75 bottom-0 left-0 flex md:hidden"
         >
-          {!completed && <ButtonContainer step={step} setStep={setStep} setCompleted={setCompleted} completedSteps={completedSteps} setCompletedSteps={setCompletedSteps} onSubmit={onSubmit} />}
+          {!completed && <ButtonContainer testId="mobile-buttons" step={step} setStep={setStep} setCompleted={setCompleted} completedSteps={completedSteps} setCompletedSteps={setCompletedSteps} onSubmit={onSubmit} />}
         </footer>
       </main>
     </FormProvider>

@@ -2,9 +2,9 @@
 
 import { useFormContext } from "react-hook-form";
 
-const ButtonContainer = ({ step, setStep, onSubmit, setCompletedSteps }) => {
+const ButtonContainer = ({ step, setStep, onSubmit, setCompletedSteps, testId }) => {
 
-    const { handleSubmit, trigger, getValues } = useFormContext();
+    const { handleSubmit, trigger } = useFormContext();
 
     const fieldsByStep = {
         0: ["name", "email", "phone"],
@@ -36,7 +36,7 @@ const ButtonContainer = ({ step, setStep, onSubmit, setCompletedSteps }) => {
     }
 
     return (
-        <div
+        <div data-testid={testId}
             className="w-full flex justify-between text-[14px] md:text-[16px] leading-[150%] md:leading-[120%] tracking-normal font-medium p-4 md:p-0 bg-white"
         >
             <button type="button"

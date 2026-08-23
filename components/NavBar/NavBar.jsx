@@ -58,7 +58,7 @@ const NavBar = ({ step, setStep, completedSteps, setCompletedSteps }) => {
     }
 
     return (
-        <ul
+        <ul data-testid="nav-container"
             className="flex md:flex-col md:h-full rounded-[15px] md:bg-[url('../public/images/bg-sidebar-desktop.svg')] bg-no-repeat bg-cover bg-center md:px-6 md:py-10 md:space-y-8 gap-x-4 md:gap-x-0"
         >
             {navSteps.map((s, idx) => {
@@ -69,6 +69,7 @@ const NavBar = ({ step, setStep, completedSteps, setCompletedSteps }) => {
                     <button
                         onClick={() => handleNavClick(idx)}
                         key={idx}
+                        data-testid={`step-${idx}`}
                         disabled={!canClick}
                         className="flex gap-4 cursor-pointer disabled:cursor-not-allowed"
                         type="button"

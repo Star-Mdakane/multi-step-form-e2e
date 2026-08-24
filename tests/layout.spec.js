@@ -18,9 +18,7 @@ test.describe('layout', () => {
         })
 
         test.describe('mobile', () => {
-            test.beforeEach(async ({ page }) => {
-                await page.setViewportSize({ width: 375, height: 800 });
-            })
+            test.use({ viewport: { width: 375, height: 800 } });
 
             test('should be at the top', async () => {
                 const box = await nav.boundingBox()
@@ -30,8 +28,8 @@ test.describe('layout', () => {
             })
 
             test('should be horizontal', async () => {
-                expect(nav).toHaveCSS('display', 'flex')
-                expect(nav).toHaveCSS('flex-direction', 'row')
+                await expect(nav).toHaveCSS('display', 'flex')
+                await expect(nav).toHaveCSS('flex-direction', 'row')
             })
 
             test('step labels hidden on mobile', async ({ page }) => {
@@ -41,9 +39,7 @@ test.describe('layout', () => {
         })
 
         test.describe('desktop', () => {
-            test.beforeEach(async ({ page }) => {
-                await page.setViewportSize({ width: 1280, height: 800 });
-            })
+            test.use({ viewport: { width: 1280, height: 800 } });
 
             test('should be on the left', async () => {
                 const box = await nav.boundingBox()
@@ -81,5 +77,60 @@ test.describe('layout', () => {
                 await expect(step4).not.toHaveAttribute('aria-current', 'step');
             })
         })
+    })
+
+    test.describe('button container', () => {
+        let mobBtns, deskBtns;
+
+        test.beforeEach(async ({ page }) => {
+            deskBtns = page.getByTestId('desktop-buttons')
+            mobBtns = page.getByTestId('mobile-buttons')
+        })
+
+        test.describe('mobile view', () => {
+
+            test.use({ viewport: { width: 375, height: 800 } })
+
+            test('mobile buttons to be on screen', async () => {
+                const prevBtn = mobBtns.getByRole('button', { name: /previous page/i })
+                const nextBtn = mobBtns.getByRole('button', { name: /next page/i })
+
+                await expect(mobBtns).toBeVisible()
+                await expect(deskBtns).toBeHidden()
+                await expect(prevBtn).toHaveText('')
+                await expect(nextBtn).toHaveText(/next step/i)
+            })
+
+            test('mobile button container to be at the bottom', async () => {
+                const box = await mobBtns.boundingBox()
+
+                expect(box?.y).toBeGreaterThan(724)
+            })
+        })
+
+        test.describe('desktop view', () => {
+
+            test.use({ viewport: { width: 1280, height: 800 } })
+
+            test('desktop button container to be visible on render', async () => {
+                const prevBtn = deskBtns.getByRole('button', { name: /previous page/i })
+                const nextBtn = deskBtns.getByRole('button', { name: /next page/i })
+
+                await expect(deskBtns).toBeVisible()
+                await expect(mobBtns).toBeHidden()
+                await expect(nextBtn).toHaveText(/next step/i)
+                await expect(prevBtn).toHaveText('')
+            })
+
+            test('no horizontal scroll on any viewport', async ({ page }) => {
+                for (const width of [375, 768, 1280]) {
+                    await page.setViewportSize({ width, height: 800 })
+                    const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth)
+                    expect(scrollWidth).toBeLessThanOrEqual(width + 1) // +1 for rounding
+                }
+            })
+        })
+
+
     })
 })

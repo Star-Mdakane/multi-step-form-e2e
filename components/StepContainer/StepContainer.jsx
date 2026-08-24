@@ -25,7 +25,7 @@ const StepContainer = ({ step, steps, setStep, completed, setCompleted, complete
                 {page}
             </div>
             <div className="hidden md:block">
-                {completed ? "" : <ButtonContainer testId="container-buttons" step={step} setStep={setStep} setCompleted={setCompleted} completedSteps={completedSteps} setCompletedSteps={setCompletedSteps} onSubmit={onSubmit} />}
+                {completed ? "" : <ButtonContainer testId="desktop-buttons" step={step} setStep={setStep} setCompleted={setCompleted} completedSteps={completedSteps} setCompletedSteps={setCompletedSteps} onSubmit={onSubmit} />}
             </div>
         </div>
     )

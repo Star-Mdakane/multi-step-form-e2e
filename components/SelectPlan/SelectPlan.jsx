@@ -36,6 +36,7 @@ const SelectPlan = ({ billing, prices, plan }) => {
                                 {...register('plan', { required: "Please select a plan" })}
                                 defaultChecked={plan === p.key}
                                 aria-describedby="plan-error"
+                                aria-label={`${p.key}`}
                                 className="sr-only" />
                             <div
                                 className="w-full flex lg:flex-col justify-between items-center lg:items-start"

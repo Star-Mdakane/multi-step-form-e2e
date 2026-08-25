@@ -35,7 +35,7 @@ export default function Home() {
       email: "",
       phone: "",
       billing: "monthly",
-      plan: "",
+      plan: "arcade",
       addons: {}
     }
   });

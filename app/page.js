@@ -96,6 +96,7 @@ export default function Home() {
     .reduce((sum, k) => sum + PRICES[k][billing], 0);
   const total = planPrice + addonsPrice;
 
+  //Local storage
   useEffect(() => {
     const saved = localStorage.getItem('multi-step')
     if (saved) {
@@ -118,6 +119,7 @@ export default function Home() {
   }, [watch, isMounted]);
 
 
+  //Array for pages
   const steps = [
     {
       id: 'personal',

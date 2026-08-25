@@ -258,11 +258,11 @@ test.describe('step by step test', () => {
         test('next page button becoms confirm', async ({ page }) => {
             await expect(page.getByTestId('step-3')).toHaveAttribute('aria-current', 'step')
 
-            await expect(page.getByRole('button', { name: /next page/i })).toHaveText(/confirm/i)
+            await expect(page.getByRole('button', { name: /confirm/i })).toHaveText(/confirm/i)
         })
 
         test('confrm button show thank you', async ({ page }) => {
-            await page.getByRole('button', { name: /next page/i }).click()
+            await page.getByRole('button', { name: /confirm/i }).click()
 
             await expect(page.getByTestId('step-3')).toHaveAttribute('aria-current', 'step')
             expect(page.getByText(/thank you!/i))

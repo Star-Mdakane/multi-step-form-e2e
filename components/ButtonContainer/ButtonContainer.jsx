@@ -48,7 +48,7 @@ const ButtonContainer = ({ step, setStep, onSubmit, setCompletedSteps, testId })
 
             </button>
             <button type="button"
-                aria-label="next page"
+                aria-label={step === 3 ? 'confirm' : 'next page'}
                 onClick={handleNext}
                 className="w-24 md:w-31 h-10 md:h-12 cursor-pointer text-[14px] md:text-[16px] leading-[150%] md:leading-[120%] tracking-normal font-medium bg-pri hover:bg-pri-hover text-white rounded-sm md:rounded-lg transition-colors duration-300"
             >
